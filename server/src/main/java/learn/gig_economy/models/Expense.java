@@ -10,7 +10,7 @@ public class Expense {
     private String description;
     private LocalDate date;
     private int userId;
-    private int goalId; // Optional, can be null
+    private int goalId;
 
     public Expense() {}
 

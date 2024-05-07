@@ -32,8 +32,8 @@ class ExpenseJdbcTemplateRepositoryTest {
         expense.setAmount(new BigDecimal("120.00"));
         expense.setDescription("Stationery");
         expense.setDate(LocalDate.now());
-        expense.setUserId(1);  // Assuming user_id 1 is valid and exists in the database
-        expense.setGoalId(1);  // Assuming goal_id 1 is valid and exists in the database
+        expense.setUserId(1);
+        expense.setGoalId(1);
         Expense addedExpense = repository.addExpense(expense);
         assertNotNull(addedExpense);
         assertTrue(addedExpense.getExpenseId() > 0);
@@ -42,7 +42,7 @@ class ExpenseJdbcTemplateRepositoryTest {
     @Test
     void shouldFindAllExpenses() {
         List<Expense> expenses = repository.findAll();
-        assertFalse(expenses.isEmpty());  // Check that the result is not empty
+        assertFalse(expenses.isEmpty());
     }
 
     @Test
@@ -51,7 +51,7 @@ class ExpenseJdbcTemplateRepositoryTest {
         assertFalse(expenses.isEmpty());
         Expense expense = expenses.get(0);
         expense.setAmount(new BigDecimal("150.00"));
-        assertTrue(repository.updateExpense(expense));  // Check that the update returns true
+        assertTrue(repository.updateExpense(expense));
     }
 
     @Test
@@ -59,13 +59,13 @@ class ExpenseJdbcTemplateRepositoryTest {
         List<Expense> expenses = repository.findAll();
         assertFalse(expenses.isEmpty());
         boolean deleted = repository.deleteExpense(expenses.get(0).getExpenseId());
-        assertTrue(deleted);  // Ensure the expense is deleted
+        assertTrue(deleted);
     }
 
     @Test
     void shouldNotDeleteNonexistentExpense() {
-        boolean result = repository.deleteExpense(9999);  // Assuming 9999 is a non-existent expense ID
-        assertFalse(result);  // Deletion should fail
+        boolean result = repository.deleteExpense(9999);
+        assertFalse(result);
     }
 
 

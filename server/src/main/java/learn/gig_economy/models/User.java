@@ -8,7 +8,6 @@ public class User {
     private String email;
     private BigDecimal bank;
 
-    // Constructors, getters, and setters
     public User() {}
 
     public User(int userId, String name, String email, BigDecimal bank) {

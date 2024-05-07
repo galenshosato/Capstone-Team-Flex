@@ -31,23 +31,31 @@ public class UserJdbcTemplateRepository implements UserRepository{
     }
 
     @Override
+    public User findById(int userId) {
+        final String sql = "SELECT user_id, name, email, bank FROM user WHERE user_id = ?;";
+        return jdbcTemplate.queryForObject(sql, new UserMapper(), userId);
+    }
+
+    @Override
     public List<User> findAll() {
         final String sql = "SELECT user_id, name, email, bank FROM user;";
         return jdbcTemplate.query(sql, new UserMapper());
     }
 
-//    public boolean updateUser(User user) {
-//        final String sql = "UPDATE user SET name = ?, email = ?, bank = ? WHERE user_id = ?;";
-//        return jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getBank(), user.getUserId()) > 0;
-//    }
-    @Override
     public boolean updateUser(User user) {
-        if (user.getBank().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Bank balance cannot be negative.");
-        }
         final String sql = "UPDATE user SET name = ?, email = ?, bank = ? WHERE user_id = ?;";
         return jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getBank(), user.getUserId()) > 0;
-}
+    }
+
+    //If we decide not to allow negative balance
+//    @Override
+//    public boolean updateUser(User user) {
+//        if (user.getBank().compareTo(BigDecimal.ZERO) < 0) {
+//            throw new IllegalArgumentException("Bank balance cannot be negative.");
+//        }
+//        final String sql = "UPDATE user SET name = ?, email = ?, bank = ? WHERE user_id = ?;";
+//        return jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getBank(), user.getUserId()) > 0;
+//}
     @Override
     public boolean deleteUser(int userId) {
         final String sql = "DELETE FROM user WHERE user_id = ?;";

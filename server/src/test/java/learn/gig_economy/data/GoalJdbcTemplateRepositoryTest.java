@@ -32,7 +32,7 @@ class GoalJdbcTemplateRepositoryTest {
         Goal goal = new Goal();
         goal.setDescription("Save for vacation");
         goal.setPercentage(new BigDecimal("15.00"));
-        goal.setUserId(1);  // Assuming user_id 1 is valid and exists in the database
+        goal.setUserId(1);
         Goal addedGoal = repository.addGoal(goal);
         assertNotNull(addedGoal);
         assertTrue(addedGoal.getGoalId() > 0);
@@ -41,7 +41,7 @@ class GoalJdbcTemplateRepositoryTest {
     @Test
     void shouldFindAllGoals() {
         List<Goal> goals = repository.findAll();
-        assertFalse(goals.isEmpty());  // Check that the result is not empty
+        assertFalse(goals.isEmpty());
     }
 
     @Test
@@ -51,7 +51,7 @@ class GoalJdbcTemplateRepositoryTest {
         Goal goal = goals.get(0);
         goal.setDescription("Updated Save for holiday");
         goal.setPercentage(new BigDecimal("20.00"));
-        assertTrue(repository.updateGoal(goal));  // Check that the update returns true
+        assertTrue(repository.updateGoal(goal));
     }
 
     @Test
@@ -66,7 +66,7 @@ class GoalJdbcTemplateRepositoryTest {
 
     @Test
     void shouldNotDeleteNonexistentGoal() {
-        boolean result = repository.deleteGoal(999);  // Assuming 999 is a non-existent goal ID
+        boolean result = repository.deleteGoal(999);
         assertFalse(result);
     }
 }

@@ -83,7 +83,7 @@ class UserJdbcTemplateRepositoryTest {
     @Test
     void shouldNotUpdateUserWithInvalidData() {
         User user = repository.findByEmail("galen@example.com");
-        user.setBank(BigDecimal.valueOf(-100.00));  // Set to a negative value intentionally
+        user.setBank(BigDecimal.valueOf(-100.00));
         Exception exception = assertThrows(IllegalArgumentException.class, () -> repository.updateUser(user));
         assertTrue(exception.getMessage().contains("Bank balance cannot be negative"));
     }
@@ -91,5 +91,13 @@ class UserJdbcTemplateRepositoryTest {
     @Test
     void shouldNotFindNonExistentUser() {
         assertThrows(EmptyResultDataAccessException.class, () -> repository.findByEmail("nonexistent@example.com"));
+    }
+
+    @Test
+    void shouldFindUserById() {
+        int userId = 1;
+        User foundUser = repository.findById(userId);
+        assertNotNull(foundUser);
+        assertEquals(userId, foundUser.getUserId());
     }
 }
