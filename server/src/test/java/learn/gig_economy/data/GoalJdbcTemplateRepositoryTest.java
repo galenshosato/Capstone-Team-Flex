@@ -1,6 +1,7 @@
 package learn.gig_economy.data;
 
 import learn.gig_economy.models.Goal;
+import learn.gig_economy.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,13 @@ class GoalJdbcTemplateRepositoryTest {
     void shouldNotDeleteNonexistentGoal() {
         boolean result = repository.deleteGoal(999);
         assertFalse(result);
+    }
+
+    @Test
+    void shouldFindGoalById() {
+        int goalId = 1;
+        Goal foundGoal = repository.findById(goalId);
+        assertNotNull(foundGoal);
+        assertEquals(goalId, foundGoal.getGoalId());
     }
 }

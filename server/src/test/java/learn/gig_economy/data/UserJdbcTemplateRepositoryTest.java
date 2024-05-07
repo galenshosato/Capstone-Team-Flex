@@ -79,7 +79,7 @@ class UserJdbcTemplateRepositoryTest {
         Exception exception = assertThrows(DataIntegrityViolationException.class, () -> repository.deleteUser(user.getUserId()));
         assertTrue(exception.getMessage().contains("foreign key constraint fails"));
     }
-
+// if we decide not allowing negative balance (bank)
 //    @Test
 //    void shouldNotUpdateUserWithInvalidData() {
 //        User user = repository.findByEmail("galen@example.com");

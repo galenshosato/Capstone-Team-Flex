@@ -35,7 +35,11 @@ public class GoalJdbcTemplateRepository implements GoalRepository{
         goal.setGoalId(keyHolder.getKey().intValue());
         return goal;
     }
-
+    @Override
+    public Goal findById(int goalId) {
+        final String sql = "SELECT goal_id, description, percentage, user_id FROM goal WHERE goal_id = ?;";
+        return jdbcTemplate.queryForObject(sql, new GoalMapper(), goalId);
+    }
     @Override
     public List<Goal> findAll() {
         final String sql = "SELECT goal_id, description, percentage, user_id FROM goal;";

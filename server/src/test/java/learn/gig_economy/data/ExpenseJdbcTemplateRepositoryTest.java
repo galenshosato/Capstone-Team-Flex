@@ -67,6 +67,12 @@ class ExpenseJdbcTemplateRepositoryTest {
         boolean result = repository.deleteExpense(9999);
         assertFalse(result);
     }
-
+    @Test
+    void shouldFindExpenseById() {
+        int expenseId = 1;
+        Expense foundExpense = repository.findById(expenseId);
+        assertNotNull(foundExpense);
+        assertEquals(expenseId, foundExpense.getExpenseId());
+    }
 
 }

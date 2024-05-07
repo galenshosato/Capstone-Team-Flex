@@ -8,6 +8,8 @@ public interface GoalRepository {
 
     Goal addGoal(Goal goal);
 
+    Goal findById(int goalId);
+
     List<Goal> findAll();
 
     boolean updateGoal(Goal goal);

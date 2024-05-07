@@ -9,6 +9,8 @@ public interface ExpenseRepository {
 
     Expense addExpense(Expense expense);
 
+    Expense findById(int expenseId);
+
     List<Expense> findAll();
 
     boolean updateExpense(Expense expense);

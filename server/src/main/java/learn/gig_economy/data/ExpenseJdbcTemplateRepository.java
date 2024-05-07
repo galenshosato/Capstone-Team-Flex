@@ -37,6 +37,11 @@ public class ExpenseJdbcTemplateRepository implements ExpenseRepository{
         expense.setExpenseId(keyHolder.getKey().intValue());
         return expense;
     }
+    @Override
+    public Expense findById(int expenseId) {
+        final String sql = "SELECT expense_id, name, amount, description, date, user_id, goal_id FROM expense WHERE expense_id = ?;";
+        return jdbcTemplate.queryForObject(sql, new ExpenseMapper(), expenseId);
+    }
 
     @Override
     public List<Expense> findAll() {

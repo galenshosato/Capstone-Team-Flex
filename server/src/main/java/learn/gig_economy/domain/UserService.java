@@ -24,6 +24,21 @@ public class UserService {
         return result;
     }
 
+    public User findById(int userId) {
+        return repository.findById(userId);
+    }
+
+    public Result<User> findUserById(int userId) {
+        Result<User> result = new Result<>();
+        User user = repository.findById(userId);
+        if (user == null) {
+            result.addMessage("User not found", ResultType.NOT_FOUND);
+            return result;
+        }
+        result.setPayload(user);
+        return result;
+    }
+
     public Result<User> updateUser(User user) {
         Result<User> result = new Result<>();
         if (user == null || user.getUserId() <= 0) {
