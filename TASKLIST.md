@@ -10,11 +10,10 @@
 ## Admin
 
 -   [x] Add proposal to README (Galen)
--   [] Add SCENARIO.md (Galen)
-    -   [] Add User scenarios
-    -   [] Add Income scenarios
-    -   [] Add Expense scenarios
-    -   [] Add Goal scenarios
+-   [x] Add SCENARIO.md (Galen)
+    -   [x] Add Income scenarios
+    -   [x] Add Expense scenarios
+    -   [x] Add Goal scenarios
 -   [x] Create TASKLIST.md (Galen)
     -   [x] Add Prep section
     -   [x] Add Admin Section
