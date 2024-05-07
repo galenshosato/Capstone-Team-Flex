@@ -69,7 +69,13 @@ class IncomeJdbcTemplateRepositoryTest {
         assertFalse(deleted);
     }
 
-
+    @Test
+    void shouldFindIncomeById() {
+        int incomeId = 2;
+        Income foundIncome = repository.findById(incomeId);
+        assertNotNull(foundIncome);
+        assertEquals(incomeId, foundIncome.getIncomeId());
+    }
 
 
 }

@@ -44,6 +44,13 @@ public class IncomeJdbcTemplateRepository implements IncomeRepository {
             income.setIncomeId(keyHolder.getKey().intValue());
             return income;
     }
+
+    @Override
+    public Income findById(int incomeId) {
+        final String sql = "SELECT income_id, name, amount, description, date, user_id FROM income WHERE income_id = ?;";
+        return jdbcTemplate.queryForObject(sql, new IncomeMapper(), incomeId);
+    }
+
     @Override
     public List<Income> findAll() {
         final String sql = "SELECT income_id, name, amount, description, date, user_id FROM income;";

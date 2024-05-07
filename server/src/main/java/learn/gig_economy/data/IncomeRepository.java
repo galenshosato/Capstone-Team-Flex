@@ -9,6 +9,8 @@ public interface IncomeRepository {
 
     Income addIncome(Income income);
 
+    Income findById(int incomeId);
+
     List<Income> findAll();
 
     boolean updateIncome(Income income);
