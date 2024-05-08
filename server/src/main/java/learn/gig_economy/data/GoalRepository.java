@@ -12,6 +12,8 @@ public interface GoalRepository {
 
     List<Goal> findAll();
 
+    List<Goal> findAllByUserId(int userId);
+
     boolean updateGoal(Goal goal);
 
     boolean deleteGoal(int goalId);

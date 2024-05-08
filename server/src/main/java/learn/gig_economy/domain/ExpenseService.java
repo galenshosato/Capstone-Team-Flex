@@ -2,6 +2,7 @@ package learn.gig_economy.domain;
 
 import learn.gig_economy.data.ExpenseRepository;
 import learn.gig_economy.models.Expense;
+import learn.gig_economy.models.Income;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -38,6 +39,16 @@ public class ExpenseService {
         return repository.findAll();
     }
 
+    public List<Expense> findAllByUserId(int userId) {
+        return repository.findAllByUserId(userId);
+    }
+    public List<Expense> findExpensesByYear(int year) {
+        return repository.findByYear(year);
+    }
+
+    public List<Expense> findExpensesByMonthAndYear(int month, int year) {
+        return repository.findByMonthAndYear(month, year);
+    }
     public Result<Expense> updateExpense(Expense expense) {
         Result<Expense> validation = validate(expense);
         if (!validation.isSuccess()) {

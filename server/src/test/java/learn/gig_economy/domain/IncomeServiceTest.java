@@ -10,10 +10,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -115,6 +118,34 @@ class IncomeServiceTest {
 
         assertFalse(result);
     }
+
+    @Test
+    void shouldFindByYear() {
+        Income income = new Income();
+        when(repository.findByYear(2024)).thenReturn(Arrays.asList(income));
+
+        List<Income> incomes = service.findIncomesByYear(2024);
+
+        assertNotNull(incomes);
+        assertFalse(incomes.isEmpty());
+        assertEquals(1, incomes.size());
+        verify(repository).findByYear(2024);
+    }
+
+    @Test
+    void shouldFindByMonthAndYear() {
+        Income income = new Income();
+        when(repository.findByMonthAndYear(4, 2024)).thenReturn(Arrays.asList(income));
+
+        List<Income> incomes = service.findIncomesByMonthAndYear(4, 2024);
+
+        assertNotNull(incomes);
+        assertFalse(incomes.isEmpty());
+        assertEquals(1, incomes.size());
+        verify(repository).findByMonthAndYear(4, 2024);
+    }
+
+
 
     Income makeIncome() {
         Income income = new Income();

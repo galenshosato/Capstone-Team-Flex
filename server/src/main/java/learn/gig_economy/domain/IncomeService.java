@@ -42,6 +42,18 @@ public class IncomeService {
         return repository.findAll();
     }
 
+    public List<Income> findAllByUserId(int userId) {
+        return repository.findAllByUserId(userId);
+    }
+
+    public List<Income> findIncomesByYear(int year) {
+        return repository.findByYear(year);
+    }
+
+    public List<Income> findIncomesByMonthAndYear(int month, int year) {
+        return repository.findByMonthAndYear(month, year);
+    }
+
     public Result<Income> updateIncome(Income income) {
         Result<Income> result = validate(income);
         if (!result.isSuccess()) {

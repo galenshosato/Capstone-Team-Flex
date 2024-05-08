@@ -57,6 +57,23 @@ public class IncomeJdbcTemplateRepository implements IncomeRepository {
         return jdbcTemplate.query(sql, new IncomeMapper());
     }
     @Override
+    public List<Income> findAllByUserId(int userId) {
+        final String sql = "SELECT income_id, name, amount, description, date, user_id FROM income WHERE user_id = ?;";
+        return jdbcTemplate.query(sql, new IncomeMapper(), userId);
+    }
+    @Override
+    public List<Income> findByYear(int year){
+        final String sql = "SELECT income_id, name, amount, description, date, user_id FROM income WHERE YEAR(date) = ?;";
+        return jdbcTemplate.query(sql, new IncomeMapper(), year);
+    }
+
+    @Override
+    public List<Income> findByMonthAndYear(int month, int year){
+        final String sql = "SELECT income_id, name, amount, description, date, user_id FROM income WHERE YEAR(date) = ? AND MONTH(date) = ?;";
+        return jdbcTemplate.query(sql, new IncomeMapper(), year, month);
+    }
+
+    @Override
     public boolean updateIncome(Income income) {
         final String sql = "UPDATE income SET name = ?, amount = ?, description = ?, date = ?, user_id = ? WHERE income_id = ?;";
         return jdbcTemplate.update(sql,

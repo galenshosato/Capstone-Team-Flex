@@ -8,9 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class IncomeJdbcTemplateRepositoryTest {
 
@@ -77,5 +80,37 @@ class IncomeJdbcTemplateRepositoryTest {
         assertEquals(incomeId, foundIncome.getIncomeId());
     }
 
+    @Test
+    void shouldFindIncomesByYear() {
+        List<Income> results = repository.findByYear(2024);
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertEquals(3, results.size());
+
+    }
+
+    @Test
+    void shouldNotFindIncomesByYear() {
+        List<Income> results = repository.findByYear(2029);
+        assertTrue(results.isEmpty());
+        assertEquals(0, results.size());
+    }
+
+    @Test
+    void shouldFindIncomesByMonthAndYear() {
+
+        List<Income> results = repository.findByMonthAndYear(4, 2023);
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertEquals(1, results.size());
+    }
+
+    @Test
+    void shouldNotFindIncomesByMonthAndYear() {
+
+        List<Income> results = repository.findByMonthAndYear(4, 2027);
+        assertTrue(results.isEmpty());
+        assertEquals(0, results.size());
+    }
 
 }
