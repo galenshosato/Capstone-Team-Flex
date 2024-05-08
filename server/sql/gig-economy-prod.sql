@@ -36,7 +36,7 @@ CREATE TABLE expense (
     user_id INT,
     goal_id INT,
     FOREIGN KEY (user_id) REFERENCES user(user_id),
-    FOREIGN KEY (goal_id) REFERENCES goal(goal_id) 
+    FOREIGN KEY (goal_id) REFERENCES goal(goal_id) ON DELETE SET NULL
 );
 
 INSERT INTO user (name, email, bank) VALUES
@@ -45,7 +45,7 @@ INSERT INTO user (name, email, bank) VALUES
 ('Miro', 'miroslav@example.com', 1200.00);
 
 INSERT INTO income (name, amount, description, date, user_id) VALUES
-('Freelance', 300.00, 'Front-end web', '2024-05-01', 1),
+('Freelance', 300.00, 'Front-end web', '2023-05-01', 1),
 ('Graphic Design', 450.00, 'Logo design', '2024-05-02', 2),
 ('Consulting', 500.00, 'Business consulting', '2024-05-03', 3);
 

@@ -122,27 +122,27 @@ class IncomeServiceTest {
     @Test
     void shouldFindByYear() {
         Income income = new Income();
-        when(repository.findByYear(2024)).thenReturn(Arrays.asList(income));
+        when(repository.findByYear(2024, 1)).thenReturn(Arrays.asList(income));
 
-        List<Income> incomes = service.findIncomesByYear(2024);
+        List<Income> incomes = service.findIncomesByYear(2024, 1);
 
         assertNotNull(incomes);
         assertFalse(incomes.isEmpty());
         assertEquals(1, incomes.size());
-        verify(repository).findByYear(2024);
+        verify(repository).findByYear(2024, 1);
     }
 
     @Test
     void shouldFindByMonthAndYear() {
         Income income = new Income();
-        when(repository.findByMonthAndYear(4, 2024)).thenReturn(Arrays.asList(income));
+        when(repository.findByMonthAndYear(4, 2024, 1)).thenReturn(Arrays.asList(income));
 
-        List<Income> incomes = service.findIncomesByMonthAndYear(4, 2024);
+        List<Income> incomes = service.findIncomesByMonthAndYear(4, 2024, 1);
 
         assertNotNull(incomes);
         assertFalse(incomes.isEmpty());
         assertEquals(1, incomes.size());
-        verify(repository).findByMonthAndYear(4, 2024);
+        verify(repository).findByMonthAndYear(4, 2024, 1);
     }
 
 

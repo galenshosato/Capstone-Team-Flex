@@ -79,16 +79,16 @@ class ExpenseJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindExpensesByYear() {
-        List<Expense> results = repository.findByYear(2024);
+        List<Expense> results = repository.findByYear(2024, 1);
         assertNotNull(results);
         assertFalse(results.isEmpty());
-        assertEquals(4, results.size());
+        assertEquals(2, results.size());
 
     }
 
     @Test
     void shouldNotFindExpensesByYear() {
-        List<Expense> results = repository.findByYear(2029);
+        List<Expense> results = repository.findByYear(2029, 1);
         assertTrue(results.isEmpty());
         assertEquals(0, results.size());
     }
@@ -96,7 +96,7 @@ class ExpenseJdbcTemplateRepositoryTest {
     @Test
     void shouldFindExpensesByMonthAndYear() {
 
-        List<Expense> results = repository.findByMonthAndYear(4, 2023);
+        List<Expense> results = repository.findByMonthAndYear(4, 2023, 3);
         assertNotNull(results);
         assertFalse(results.isEmpty());
         assertEquals(1, results.size());
@@ -105,7 +105,7 @@ class ExpenseJdbcTemplateRepositoryTest {
     @Test
     void shouldNotFindExpensesByMonthAndYear() {
 
-        List<Expense> results = repository.findByMonthAndYear(4, 2027);
+        List<Expense> results = repository.findByMonthAndYear(4, 2027, 1);
         assertTrue(results.isEmpty());
         assertEquals(0, results.size());
     }

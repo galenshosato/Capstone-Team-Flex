@@ -42,12 +42,12 @@ public class ExpenseService {
     public List<Expense> findAllByUserId(int userId) {
         return repository.findAllByUserId(userId);
     }
-    public List<Expense> findExpensesByYear(int year) {
-        return repository.findByYear(year);
+    public List<Expense> findExpensesByYear(int year, int userId) {
+        return repository.findByYear(year, userId);
     }
 
-    public List<Expense> findExpensesByMonthAndYear(int month, int year) {
-        return repository.findByMonthAndYear(month, year);
+    public List<Expense> findExpensesByMonthAndYear(int month, int year, int userId) {
+        return repository.findByMonthAndYear(month, year, userId);
     }
     public Result<Expense> updateExpense(Expense expense) {
         Result<Expense> validation = validate(expense);

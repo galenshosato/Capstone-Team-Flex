@@ -56,15 +56,15 @@ public class ExpenseJdbcTemplateRepository implements ExpenseRepository{
     }
 
     @Override
-    public List<Expense> findByYear(int year){
-        final String sql = "SELECT expense_id, name, amount, description, date, user_id, goal_id FROM expense WHERE YEAR(date) = ?;";
-        return jdbcTemplate.query(sql, new ExpenseMapper(), year);
+    public List<Expense> findByYear(int year, int userId){
+        final String sql = "SELECT expense_id, name, amount, description, date, user_id, goal_id FROM expense WHERE YEAR(date) = ? AND user_id = ?;";
+        return jdbcTemplate.query(sql, new ExpenseMapper(), year, userId);
     }
 
     @Override
-    public List<Expense> findByMonthAndYear(int month, int year){
-        final String sql = "SELECT expense_id, name, amount, description, date, user_id, goal_id FROM expense WHERE YEAR(date) = ? AND MONTH(date) = ?;";
-        return jdbcTemplate.query(sql, new ExpenseMapper(), year, month);
+    public List<Expense> findByMonthAndYear(int month, int year, int userId){
+        final String sql = "SELECT expense_id, name, amount, description, date, user_id, goal_id FROM expense WHERE YEAR(date) = ? AND MONTH(date) = ? AND user_id = ?;";
+        return jdbcTemplate.query(sql, new ExpenseMapper(), year, month, userId);
     }
 
     @Override

@@ -123,27 +123,27 @@ class ExpenseServiceTest {
     @Test
     void shouldFindByYear() {
         Expense expense = new Expense();
-        when(repository.findByYear(2024)).thenReturn(Arrays.asList(expense));
+        when(repository.findByYear(2024, 1)).thenReturn(Arrays.asList(expense));
 
-        List<Expense> expenses = service.findExpensesByYear(2024);
+        List<Expense> expenses = service.findExpensesByYear(2024, 1);
 
         assertNotNull(expenses);
         assertFalse(expenses.isEmpty());
         assertEquals(1, expenses.size());
-        verify(repository).findByYear(2024);
+        verify(repository).findByYear(2024, 1);
     }
 
     @Test
     void shouldFindByMonthAndYear() {
         Expense expense = new Expense();
-        when(repository.findByMonthAndYear(4, 2024)).thenReturn(Arrays.asList(expense));
+        when(repository.findByMonthAndYear(4, 2024, 1)).thenReturn(Arrays.asList(expense));
 
-        List<Expense> expenses = service.findExpensesByMonthAndYear(4, 2024);
+        List<Expense> expenses = service.findExpensesByMonthAndYear(4, 2024, 1);
 
         assertNotNull(expenses);
         assertFalse(expenses.isEmpty());
         assertEquals(1, expenses.size());
-        verify(repository).findByMonthAndYear(4, 2024);
+        verify(repository).findByMonthAndYear(4, 2024, 1);
     }
 
     Expense makeExpense(){

@@ -60,7 +60,7 @@ class GoalJdbcTemplateRepositoryTest {
         List<Goal> goals = repository.findAll();
         assertFalse(goals.isEmpty());
         //deleting expense first
-        expenseJdbcTemplateRepository.deleteExpense(2);
+        //expenseJdbcTemplateRepository.deleteExpense(2);
         boolean deleted = repository.deleteGoal(goals.get(1).getGoalId());
         assertTrue(deleted);
     }

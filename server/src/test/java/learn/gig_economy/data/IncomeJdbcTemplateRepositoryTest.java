@@ -82,16 +82,16 @@ class IncomeJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindIncomesByYear() {
-        List<Income> results = repository.findByYear(2024);
+        List<Income> results = repository.findByYear(2024, 1);
         assertNotNull(results);
         assertFalse(results.isEmpty());
-        assertEquals(3, results.size());
+        assertEquals(1, results.size());
 
     }
 
     @Test
     void shouldNotFindIncomesByYear() {
-        List<Income> results = repository.findByYear(2029);
+        List<Income> results = repository.findByYear(2029, 1);
         assertTrue(results.isEmpty());
         assertEquals(0, results.size());
     }
@@ -99,7 +99,7 @@ class IncomeJdbcTemplateRepositoryTest {
     @Test
     void shouldFindIncomesByMonthAndYear() {
 
-        List<Income> results = repository.findByMonthAndYear(4, 2023);
+        List<Income> results = repository.findByMonthAndYear(4, 2023, 3);
         assertNotNull(results);
         assertFalse(results.isEmpty());
         assertEquals(1, results.size());
@@ -108,7 +108,7 @@ class IncomeJdbcTemplateRepositoryTest {
     @Test
     void shouldNotFindIncomesByMonthAndYear() {
 
-        List<Income> results = repository.findByMonthAndYear(4, 2027);
+        List<Income> results = repository.findByMonthAndYear(4, 2027, 7);
         assertTrue(results.isEmpty());
         assertEquals(0, results.size());
     }

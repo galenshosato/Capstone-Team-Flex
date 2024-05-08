@@ -46,12 +46,12 @@ public class IncomeService {
         return repository.findAllByUserId(userId);
     }
 
-    public List<Income> findIncomesByYear(int year) {
-        return repository.findByYear(year);
+    public List<Income> findIncomesByYear(int year, int userId) {
+        return repository.findByYear(year, userId);
     }
 
-    public List<Income> findIncomesByMonthAndYear(int month, int year) {
-        return repository.findByMonthAndYear(month, year);
+    public List<Income> findIncomesByMonthAndYear(int month, int year, int userId) {
+        return repository.findByMonthAndYear(month, year, userId);
     }
 
     public Result<Income> updateIncome(Income income) {
