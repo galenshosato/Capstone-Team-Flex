@@ -32,6 +32,16 @@ public class ExpenseController {
         return expenseService.findExpenseByYear(year);
     }
 
+    @GetMapping("/{expenseId}")
+    public ResponseEntity<Expense> findExpenseById(@PathVariable int expenseId) {
+        Expense expense = expenseService.findById(expenseId);
+        if (expense == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(expense);
+    }
+
     @PostMapping
     public ResponseEntity<Object> createExpense(@RequestBody Expense expense) {
         Result<Expense> result = expenseService.addExpense(expense);

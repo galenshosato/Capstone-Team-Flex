@@ -31,6 +31,15 @@ public class IncomeController {
         return incomeService.findIncomeByYear(year);
     }
 
+    @GetMapping("/{incomeId}")
+    public ResponseEntity<Income> findIncomeById(@PathVariable int incomeId) {
+        Income income = incomeService.findById(incomeId);
+        if (income == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(income);
+    }
+
     @PostMapping
     public ResponseEntity<Object> addIncome(@RequestBody Income income) {
         Result<Income> result = incomeService.addIncome(income);
