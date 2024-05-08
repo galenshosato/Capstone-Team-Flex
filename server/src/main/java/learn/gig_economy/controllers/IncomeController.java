@@ -20,15 +20,15 @@ public class IncomeController {
         this.incomeService = incomeService;
     }
 
-    @GetMapping("/get/{month}/{year}")
-    public List<Income> getIncomeItemsForMonthAndYear(@PathVariable int month, @PathVariable int year) {
-        return incomeService.findIncomeByMonthAndYear(month, year);
+    @GetMapping("/{userId}/get/{month}/{year}")
+    public List<Income> getIncomeItemsForMonthAndYear(@PathVariable int userId, @PathVariable int month, @PathVariable int year) {
+        return incomeService.findIncomeByMonthAndYear(userId, month, year);
     }
 
 
-    @GetMapping("/get/{year}")
-    public List<Income> getIncomeItems(@PathVariable int year) {
-        return incomeService.findIncomeByYear(year);
+    @GetMapping("/{userId}/get/{year}")
+    public List<Income> getIncomeItems(@PathVariable int userId, @PathVariable int year) {
+        return incomeService.findIncomeByYear(userId, year);
     }
 
     @GetMapping("/{incomeId}")
@@ -44,7 +44,7 @@ public class IncomeController {
     public ResponseEntity<Object> addIncome(@RequestBody Income income) {
         Result<Income> result = incomeService.addIncome(income);
         if (result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED)
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
         return ErrorResponse.build(result);
     }
@@ -63,7 +63,7 @@ public class IncomeController {
     }
 
     @DeleteMapping("/{incomeId}")
-    public ResponseEntity<Void> deleteById(@PathVariable int incomeId) {
+    public ResponseEntity<Void> deleteIncomeById(@PathVariable int incomeId) {
         if (incomeService.deleteById(incomeId)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

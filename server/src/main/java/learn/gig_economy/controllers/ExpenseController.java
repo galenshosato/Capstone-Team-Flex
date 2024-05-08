@@ -21,15 +21,15 @@ public class ExpenseController {
         this.expenseService = expenseService;
     }
 
-    @GetMapping("/get/{month}/{year}")
-    public List<Expense> findExpenseItemsByMonthAndYear(@PathVariable int month, @PathVariable int year) {
-        return expenseService.findExpenseByMonthAndYear(month, year);
+    @GetMapping("/{userId}/get/{month}/{year}")
+    public List<Expense> findExpenseItemsByMonthAndYear(@PathVariable int userId, @PathVariable int month, @PathVariable int year) {
+        return expenseService.findExpenseByMonthAndYear(userId, month, year);
     }
 
 
-    @GetMapping("/get/{year}")
-    public List<Expense> findExpenseItemsByYear(@PathVariable int year) {
-        return expenseService.findExpenseByYear(year);
+    @GetMapping("/{userId}/get/{year}")
+    public List<Expense> findExpenseItemsByYear(@PathVariable int userId, @PathVariable int year) {
+        return expenseService.findExpenseByYear(userId, year);
     }
 
     @GetMapping("/{expenseId}")
