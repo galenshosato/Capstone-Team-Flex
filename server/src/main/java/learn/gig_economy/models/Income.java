@@ -2,6 +2,7 @@ package learn.gig_economy.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Income {
     private int incomeId;

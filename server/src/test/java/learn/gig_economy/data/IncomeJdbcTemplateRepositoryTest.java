@@ -30,7 +30,7 @@ class IncomeJdbcTemplateRepositoryTest {
     void shouldAddValidIncome() {
         Income income = new Income();
         income.setName("Consulting Fee");
-        income.setAmount(new BigDecimal("500.00"));
+        income.setAmount(new BigDecimal("750.00"));
         income.setDescription("Consulting services provided");
         income.setDate(LocalDate.now());
         income.setUserId(1);

@@ -37,7 +37,7 @@ class UserServiceTest {
 
     @Test
     void shouldNotAddInvalidUser() {
-        User user = new User(0, "", "", new BigDecimal("100.00")); // Invalid user with empty name and email
+        User user = new User(0, "", "", new BigDecimal("100.00"));
 
         Result<User> result = service.addUser(user);
 
@@ -51,21 +51,18 @@ class UserServiceTest {
         User user = new User(1, "John Moore", "john@something.com", new BigDecimal("100.00"));
         when(repository.findById(1)).thenReturn(user);
 
-        Result<User> result = service.findById(1);
+        User result = service.findById(1);
 
-        assertTrue(result.isSuccess());
-        assertNotNull(result.getPayload());
-        assertEquals(1, result.getPayload().getUserId());
+        assertNotNull(result);
+        assertEquals(1, result.getUserId());
     }
 
     @Test
     void shouldNotFindUserById() {
         when(repository.findById(any(Integer.class))).thenReturn(null);
-        Result<User> result = service.findById(999);
+        User result = service.findById(999);
 
-        assertFalse(result.isSuccess());
-        assertNull(result.getPayload());
-        assertTrue(result.getMessages().contains("User not found"));
+        assertNull(result);
     }
 
     @Test
@@ -97,19 +94,18 @@ class UserServiceTest {
     void shouldDeleteUser() {
         when(repository.deleteUser(1)).thenReturn(true);
 
-        Result<Void> result = service.deleteUser(1);
+        boolean result = service.deleteById(1);
 
-        assertTrue(result.isSuccess());
+        assertTrue(result);
     }
 
     @Test
     void shouldNotDeleteUser() {
         when(repository.deleteUser(any(Integer.class))).thenReturn(false);
 
-        Result<Void> result = service.deleteUser(999);
+        boolean result = service.deleteById(999);
 
-        assertFalse(result.isSuccess());
-        assertTrue(result.getMessages().contains("User not found or unable to delete"));
+        assertFalse(result);
     }
 
 }
