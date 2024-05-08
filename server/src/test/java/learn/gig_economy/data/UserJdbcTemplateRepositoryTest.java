@@ -46,7 +46,7 @@ class UserJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindAllUsers() {
-        assertTrue(repository.findAll().size() >= 3); // Ensuring we have at least the initial seeded users
+        assertTrue(repository.findAll().size() >= 3);
     }
 
     @Test
