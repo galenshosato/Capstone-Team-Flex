@@ -38,6 +38,10 @@ public class GoalService {
         return repository.findAll();
     }
 
+    public List<Goal> findAllByUserId(int userId) {
+        return repository.findAllByUserId(userId);
+    }
+
     public Result<Goal> updateGoal(Goal goal) {
         Result<Goal> validation = validate(goal);
         if (!validation.isSuccess()) {

@@ -2,6 +2,7 @@ package learn.gig_economy.domain;
 
 import learn.gig_economy.data.ExpenseRepository;
 import learn.gig_economy.models.Expense;
+import learn.gig_economy.models.Income;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -117,6 +120,31 @@ class ExpenseServiceTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldFindByYear() {
+        Expense expense = new Expense();
+        when(repository.findByYear(2024, 1)).thenReturn(Arrays.asList(expense));
+
+        List<Expense> expenses = service.findExpensesByYear(2024, 1);
+
+        assertNotNull(expenses);
+        assertFalse(expenses.isEmpty());
+        assertEquals(1, expenses.size());
+        verify(repository).findByYear(2024, 1);
+    }
+
+    @Test
+    void shouldFindByMonthAndYear() {
+        Expense expense = new Expense();
+        when(repository.findByMonthAndYear(4, 2024, 1)).thenReturn(Arrays.asList(expense));
+
+        List<Expense> expenses = service.findExpensesByMonthAndYear(4, 2024, 1);
+
+        assertNotNull(expenses);
+        assertFalse(expenses.isEmpty());
+        assertEquals(1, expenses.size());
+        verify(repository).findByMonthAndYear(4, 2024, 1);
+    }
 
     Expense makeExpense(){
             Expense expense;

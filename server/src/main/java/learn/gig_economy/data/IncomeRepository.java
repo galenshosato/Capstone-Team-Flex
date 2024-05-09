@@ -13,6 +13,12 @@ public interface IncomeRepository {
 
     List<Income> findAll();
 
+    List<Income> findAllByUserId(int userId);
+
+    List<Income> findByYear(int year, int userId);
+
+    List<Income> findByMonthAndYear(int month, int year, int userId);
+
     boolean updateIncome(Income income);
 
     boolean deleteIncome(int incomeId);

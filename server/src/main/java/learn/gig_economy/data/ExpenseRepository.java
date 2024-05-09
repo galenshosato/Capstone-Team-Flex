@@ -13,6 +13,12 @@ public interface ExpenseRepository {
 
     List<Expense> findAll();
 
+    List<Expense> findAllByUserId(int userId);
+
+    List<Expense> findByYear(int year, int userId);
+
+    List<Expense> findByMonthAndYear(int month, int year, int userId);
+
     boolean updateExpense(Expense expense);
 
     boolean deleteExpense(int expenseId);
