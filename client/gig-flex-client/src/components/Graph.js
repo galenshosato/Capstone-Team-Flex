@@ -1,21 +1,46 @@
-import React from "react";
-import MonthlyLineGraph from "./MonthlyLineGraph";
+import React, { useState } from "react";
 import MonthlyBarGraph from "./MonthlyBarGraph";
 import PieChart from "./PieChart";
 
 const Graph = ({ income, expenses, data }) => {
+    const [selectedComponent, setSelectedComponent] =
+        useState("monthlyBarGraph");
+
+    const handleComponentChange = (event) => {
+        setSelectedComponent(event.target.value);
+    };
+
     return (
-        // <div className="form-wrapper">
-        //   <h3>Overview</h3>
-        //   <p>Placeholder for graph component</p>
-        //   <p>Lorem ipsum</p>
-        //   <p>Lorem ipsum</p>
-        //   <p>Lorem ipsum</p>
-        // </div>
-        <>
-            {/* <MonthlyBarGraph /> */}
-            <PieChart data={data} />
-        </>
+        <div className="graph">
+            {selectedComponent === "monthlyBarGraph" && (
+                <MonthlyBarGraph incomeData={income} expenseData={expenses} />
+            )}
+            {selectedComponent === "pieChart" && <PieChart data={data} />}
+            <div>
+                <label htmlFor="monthlyBarGraph">
+                    <input
+                        type="radio"
+                        id="monthlyBarGraph"
+                        name="graphType"
+                        value="monthlyBarGraph"
+                        checked={selectedComponent === "monthlyBarGraph"}
+                        onChange={handleComponentChange}
+                    />
+                    Income and Expenses
+                </label>
+                <label htmlFor="pieChart">
+                    <input
+                        type="radio"
+                        id="pieChart"
+                        name="graphType"
+                        value="pieChart"
+                        checked={selectedComponent === "pieChart"}
+                        onChange={handleComponentChange}
+                    />
+                    Goals
+                </label>
+            </div>
+        </div>
     );
 };
 

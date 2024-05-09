@@ -1,9 +1,9 @@
 package learn.gig_economy.domain;
 
 import learn.gig_economy.data.ExpenseRepository;
+import learn.gig_economy.data.UserRepository;
 import learn.gig_economy.models.Expense;
-import learn.gig_economy.models.Income;
-import org.junit.jupiter.api.BeforeEach;
+import learn.gig_economy.models.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,8 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class ExpenseServiceTest {
@@ -30,16 +29,30 @@ class ExpenseServiceTest {
     @MockBean
     ExpenseRepository repository;
 
+    @MockBean
+    UserRepository userRepository;
+
+
     @Test
     void shouldAddValidExpense() {
         LocalDate date = LocalDate.of(2024, 6, 3);
-        Expense expense = new Expense(0, "Internet Bill", new BigDecimal(12), "description", date, 1, 1);
+        Expense expense = new Expense(0, "Internet Bill", new BigDecimal("12"), "description", date, 1, 1);
+        User originalUser = new User(1, "John", "john@example.com", new BigDecimal("1000.00"));
+
+        BigDecimal newBankBalance = originalUser.getBank().subtract(expense.getAmount());
+        User updatedUser = new User(1, "John", "john@example.com", newBankBalance);
+
         when(repository.addExpense(any(Expense.class))).thenReturn(expense);
+
+        when(userRepository.findById(1)).thenReturn(originalUser);
+
         Result<Expense> result = service.addExpense(expense);
 
         assertTrue(result.isSuccess());
         assertNotNull(result.getPayload());
         assertEquals("Internet Bill", result.getPayload().getName());
+
+        assertEquals(newBankBalance, updatedUser.getBank());
     }
 
     @Test
@@ -64,7 +77,7 @@ class ExpenseServiceTest {
     @Test
     void shouldNotFindExpenseWhenIdNotExists() {
         when(repository.findById(anyInt())).thenReturn(null);
-        Expense foundExpense = service.findById(999); // Non-existent ID
+        Expense foundExpense = service.findById(999);
 
         assertNull(foundExpense);
     }
@@ -84,32 +97,57 @@ class ExpenseServiceTest {
     @Test
     void shouldUpdateExpense() {
         LocalDate date = LocalDate.of(2024, 6, 3);
-        Expense expense = new Expense(1, "Internet Bill", new BigDecimal(12), "description", date, 1, 1);
-        when(repository.updateExpense(any(Expense.class))).thenReturn(true);
-        expense.setDescription("Updated Description");
-        Result<Expense> result = service.updateExpense(expense);
+        Expense originalExpense = new Expense(1, "Internet Bill", new BigDecimal("50.00"), "Initial description", date, 1, 1);
+        Expense updatedExpense = new Expense(1, "Internet Bill", new BigDecimal("60.00"), "Updated Description", date, 1, 1);
+        User user = new User(1, "John", "john@example.com", new BigDecimal("1000.00"));
+
+        when(repository.findById(1)).thenReturn(originalExpense);
+        when(userRepository.findById(1)).thenReturn(user);
+
+        when(repository.updateExpense(any(Expense.class))).thenAnswer(invocation -> {
+            Expense passedExpense = invocation.getArgument(0);
+
+            assertEquals("Updated Description", passedExpense.getDescription());
+            assertEquals(new BigDecimal("60.00"), passedExpense.getAmount());
+            return true;
+        });
+
+        Result<Expense> result = service.updateExpense(updatedExpense);
 
         assertTrue(result.isSuccess());
+        assertNotNull(result.getPayload());
         assertEquals("Updated Description", result.getPayload().getDescription());
+
     }
 
     @Test
     void shouldNotUpdateNonexistentExpense() {
         LocalDate date = LocalDate.of(2024, 6, 3);
-        Expense expense = new Expense(1, "Internet Bill", new BigDecimal(12), "description", date, 1, 1);
+        Expense expense = new Expense(999, "Internet Bill", new BigDecimal("12.00"), "description", date, 1, 1);
+        when(repository.findById(999)).thenReturn(null);
         when(repository.updateExpense(any(Expense.class))).thenReturn(false);
+
         Result<Expense> result = service.updateExpense(expense);
 
         assertFalse(result.isSuccess());
-        assertTrue(result.getMessages().contains("Expense not found or update failed"));
+        assertTrue(result.getMessages().contains("Expense not found"));
     }
 
     @Test
     void shouldDeleteExpenseById() {
+        LocalDate date = LocalDate.of(2024, 6, 3);
+        Expense expense = new Expense(1, "Internet Bill", new BigDecimal("12"), "description", date, 1, 1);
+        User user = new User(1, "John Doe", "john@example.com", new BigDecimal("1000.00"));
+
+        when(repository.findById(1)).thenReturn(expense);
+        when(userRepository.findById(1)).thenReturn(user);
         when(repository.deleteExpense(1)).thenReturn(true);
+
         boolean result = service.deleteById(1);
 
         assertTrue(result);
+
+        assertEquals(new BigDecimal("1012.00"), user.getBank());
     }
 
     @Test
