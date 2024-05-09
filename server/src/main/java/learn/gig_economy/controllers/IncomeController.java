@@ -22,13 +22,13 @@ public class IncomeController {
 
     @GetMapping("/{userId}/get/{month}/{year}")
     public List<Income> getIncomeItemsForMonthAndYear(@PathVariable int userId, @PathVariable int month, @PathVariable int year) {
-        return incomeService.findIncomeByMonthAndYear(userId, month, year);
+        return incomeService.findIncomesByMonthAndYear(month, year, userId);
     }
 
 
     @GetMapping("/{userId}/get/{year}")
     public List<Income> getIncomeItems(@PathVariable int userId, @PathVariable int year) {
-        return incomeService.findIncomeByYear(userId, year);
+        return incomeService.findIncomesByYear(year, userId);
     }
 
     @GetMapping("/{incomeId}")

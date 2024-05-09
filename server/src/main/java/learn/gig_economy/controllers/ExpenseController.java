@@ -23,13 +23,13 @@ public class ExpenseController {
 
     @GetMapping("/{userId}/get/{month}/{year}")
     public List<Expense> findExpenseItemsByMonthAndYear(@PathVariable int userId, @PathVariable int month, @PathVariable int year) {
-        return expenseService.findExpenseByMonthAndYear(userId, month, year);
+        return expenseService.findExpensesByMonthAndYear(month, year, userId);
     }
 
 
     @GetMapping("/{userId}/get/{year}")
     public List<Expense> findExpenseItemsByYear(@PathVariable int userId, @PathVariable int year) {
-        return expenseService.findExpenseByYear(userId, year);
+        return expenseService.findExpensesByYear(year, userId);
     }
 
     @GetMapping("/{expenseId}")
