@@ -4,7 +4,7 @@ import PieChart from "./PieChart";
 
 const Graph = ({ income, expenses, data }) => {
     const [selectedComponent, setSelectedComponent] =
-        useState("monthlyBarGraph"); // Initial selection
+        useState("monthlyBarGraph");
 
     const handleComponentChange = (event) => {
         setSelectedComponent(event.target.value);
