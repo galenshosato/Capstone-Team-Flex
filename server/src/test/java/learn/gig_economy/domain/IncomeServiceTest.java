@@ -1,6 +1,7 @@
 package learn.gig_economy.domain;
 
 import learn.gig_economy.data.IncomeRepository;
+import learn.gig_economy.data.UserRepository;
 import learn.gig_economy.models.Income;
 import learn.gig_economy.models.User;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class IncomeServiceTest {
@@ -28,12 +28,17 @@ class IncomeServiceTest {
     @MockBean
     IncomeRepository repository;
 
-
+    @MockBean
+    UserRepository userRepository;
 
     @Test
-    void shouldAddValidIncoming() {
+    void shouldAddValidIncome() {
         LocalDate date = LocalDate.of(2024, 6, 3);
-        Income income = new Income(0, "John", new BigDecimal("100.00"),"description", date, 0);
+        Income income = new Income(0, "Travel", new BigDecimal("100.00"), "description", date, 1);
+        User mockUser = new User(1, "John", "john@example.com", new BigDecimal("500.00"));
+
+        when(userRepository.findById(1)).thenReturn(mockUser);
+
         when(repository.addIncome(any(Income.class))).thenReturn(income);
 
         Result<Income> result = service.addIncome(income);
@@ -41,32 +46,24 @@ class IncomeServiceTest {
         assertTrue(result.isSuccess());
         assertNotNull(result.getPayload());
         assertEquals("description", result.getPayload().getDescription());
-    }
-
-    @Test
-    void shouldAddValidIncome() {
-       Income expected = makeIncome();
-       Income arg = makeIncome();
-       arg.setIncomeId(0);
-
-        when(repository.addIncome(arg)).thenReturn(expected);
-        Result<Income> result = service.addIncome(arg);
-        assertEquals(ResultType.SUCCESS, result.getType());
-
-        assertEquals(expected, result.getPayload());
-
+        assertEquals(new BigDecimal("600.00"), mockUser.getBank());
     }
 
     @Test
     void shouldUpdateValidIncome() {
-        Income originalIncome = new Income(1, "Freelance Work", new BigDecimal("200.00"), "Updated description", LocalDate.now(), 1);
-        when(repository.updateIncome(any(Income.class))).thenReturn(true);
+        Income originalIncome = new Income(1, "Freelance Work", new BigDecimal("200.00"), "Initial description", LocalDate.now(), 1);
+        User user = new User(1, "John Doe", "john@example.com", new BigDecimal("1000.00"));
+
         when(repository.findById(1)).thenReturn(originalIncome);
+        when(userRepository.findById(1)).thenReturn(user);
+        when(repository.updateIncome(any(Income.class))).thenReturn(true);
+        when(userRepository.updateUser(any(User.class))).thenReturn(true);
 
         Result<Income> result = service.updateIncome(originalIncome);
 
         assertTrue(result.isSuccess());
-        assertEquals("Updated description", result.getPayload().getDescription());
+        assertNotNull(result.getPayload());
+        assertEquals("Initial description", result.getPayload().getDescription());
     }
 
     @Test
@@ -103,20 +100,31 @@ class IncomeServiceTest {
 
     @Test
     void shouldDeleteIncome() {
+        Income mockIncome = new Income(1, "Freelance Job", new BigDecimal("200.00"), "Freelance income", LocalDate.now(), 1);
+        User mockUser = new User(1, "John", "john@example.com", new BigDecimal("1000.00"));
+
+        when(repository.findById(1)).thenReturn(mockIncome);
+        when(userRepository.findById(1)).thenReturn(mockUser);
+        when(userRepository.updateUser(any(User.class))).thenReturn(true);
         when(repository.deleteIncome(1)).thenReturn(true);
 
         boolean result = service.deleteById(1);
 
         assertTrue(result);
+        verify(userRepository).updateUser(mockUser);
+        verify(repository).deleteIncome(1);
     }
 
     @Test
     void shouldNotDeleteNonexistentIncome() {
-        when(repository.deleteIncome(anyInt())).thenReturn(false);
+        when(repository.findById(999)).thenReturn(null);
+        when(repository.deleteIncome(999)).thenReturn(false);
 
         boolean result = service.deleteById(999);
 
         assertFalse(result);
+        verify(repository).findById(999);
+        verify(repository, never()).deleteIncome(999);
     }
 
     @Test
@@ -144,8 +152,6 @@ class IncomeServiceTest {
         assertEquals(1, incomes.size());
         verify(repository).findByMonthAndYear(4, 2024, 1);
     }
-
-
 
     Income makeIncome() {
         Income income = new Income();
