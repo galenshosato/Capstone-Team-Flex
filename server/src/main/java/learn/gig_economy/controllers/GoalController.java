@@ -20,8 +20,8 @@ public class GoalController {
         this.goalService = goalService;
     }
 
-    @GetMapping("/{userId}")
-    public List<Goal> findAllGoalsForUser(@PathVariable int userId) {return goalService.findAll(userId);}
+    @GetMapping("/get/{userId}")
+    public List<Goal> findAllGoalsForUser(@PathVariable int userId) {return goalService.findAllByUserId(userId);}
 
     @GetMapping("/{goalId}")
     public ResponseEntity<Goal> findGoalById(@PathVariable int goalId) {
