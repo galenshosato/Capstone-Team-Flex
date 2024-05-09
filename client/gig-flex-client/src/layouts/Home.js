@@ -38,6 +38,11 @@ const expenses = [
     { id: 4, name: "Groceries", amount: "60.00", date: "2024-05-01" },
 ];
 
+const data = [
+    { name: "test", percentage: 30 },
+    { name: "test2", percentage: 40 },
+];
+
 const Home = () => {
     return (
         <div className="layout">

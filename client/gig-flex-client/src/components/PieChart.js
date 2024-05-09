@@ -6,7 +6,7 @@ const PieChart = ({ data }) => {
 
     useEffect(() => {
         const width = 400;
-        const height = 400;
+        const height = 300;
         const radius = Math.min(width, height) / 2;
 
         const svg = d3
