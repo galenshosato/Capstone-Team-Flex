@@ -9,7 +9,7 @@ const MonthlyBarGraph = ({ incomeData, expenseData }) => {
         const totalExpenses = d3.sum(expenseData, (d) => d.amount);
 
         const margin = { top: 20, right: 20, bottom: 30, left: 40 },
-            width = 600 - margin.left - margin.right,
+            width = 400 - margin.left - margin.right,
             height = 300 - margin.top - margin.bottom;
 
         const svg = d3
