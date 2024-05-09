@@ -1,6 +1,7 @@
 package learn.gig_economy.data;
 
 import learn.gig_economy.models.Expense;
+import learn.gig_economy.models.Income;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +76,37 @@ class ExpenseJdbcTemplateRepositoryTest {
         assertEquals(expenseId, foundExpense.getExpenseId());
     }
 
+
+    @Test
+    void shouldFindExpensesByYear() {
+        List<Expense> results = repository.findByYear(2024, 1);
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertEquals(2, results.size());
+
+    }
+
+    @Test
+    void shouldNotFindExpensesByYear() {
+        List<Expense> results = repository.findByYear(2029, 1);
+        assertTrue(results.isEmpty());
+        assertEquals(0, results.size());
+    }
+
+    @Test
+    void shouldFindExpensesByMonthAndYear() {
+
+        List<Expense> results = repository.findByMonthAndYear(4, 2023, 3);
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertEquals(1, results.size());
+    }
+
+    @Test
+    void shouldNotFindExpensesByMonthAndYear() {
+
+        List<Expense> results = repository.findByMonthAndYear(4, 2027, 1);
+        assertTrue(results.isEmpty());
+        assertEquals(0, results.size());
+    }
 }

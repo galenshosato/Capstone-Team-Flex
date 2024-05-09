@@ -47,6 +47,12 @@ public class GoalJdbcTemplateRepository implements GoalRepository{
     }
 
     @Override
+    public List<Goal> findAllByUserId(int userId) {
+        final String sql = "SELECT goal_id, description, percentage, user_id FROM goal WHERE user_id = ?;";
+        return jdbcTemplate.query(sql, new GoalMapper(), userId);
+    }
+
+    @Override
     public boolean updateGoal(Goal goal) {
         final String sql = "UPDATE goal SET description = ?, percentage = ?, user_id = ? WHERE goal_id = ?;";
         return jdbcTemplate.update(sql,
