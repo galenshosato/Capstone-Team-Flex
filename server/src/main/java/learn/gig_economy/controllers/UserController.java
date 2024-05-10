@@ -16,15 +16,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> findById(@PathVariable int userId) {
-        User user = userService.findById(userId);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return ResponseEntity.ok(user);
-    }
+//    @GetMapping("/{userId}")
+//    public ResponseEntity<User> findById(@PathVariable int userId) {
+//        User user = userService.findById(userId);
+//        if (user == null) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//        return ResponseEntity.ok(user);
+//    }
 
     @GetMapping("/{email}")
     public ResponseEntity<User> findByEmail (@PathVariable String email) {

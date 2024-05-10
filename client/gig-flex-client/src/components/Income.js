@@ -1,38 +1,33 @@
 import React from "react";
+import IncomeItem from "./IncomeItem";
 import { Link } from "react-router-dom";
-import {
-  TrashIcon,
-  PencilSquareIcon,
-  PlusCircleIcon,
-} from "@heroicons/react/24/solid";
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
-const Income = ({ income }) => {
+const Income = ({ income, onDeleteIncome }) => {
   return (
     <div className="form-wrapper">
-      <Link to={`/income/add`} className="btn btn--dark">
-        <h3>Income</h3>
-        <PlusCircleIcon width={20} />
-      </Link>
+      <div className="form-header">
+        <h3>
+          <span className="green">Income</span>
+        </h3>
+        <Link to={`/income/add`} className="btn btn--dark">
+          <h4>Add</h4>
+          <PlusCircleIcon width={20} />
+        </Link>
+      </div>
       <div className="table">
         <table>
+          {/* <thead>
+            <tr>
+              {["Name", "Amount", "", ""].map((i, index) => (
+                <th key={index}>{i}</th>
+              ))}
+            </tr>
+          </thead> */}
           <tbody>
-            {income.map((income) => (
-              <tr key={income.id}>
-                <td>{income.name}</td>
-                <td>${income.amount}</td>
-                <td>
-                  <Link
-                    to={`/income/edit/${income.id}`}
-                    className="btn btn--dark"
-                  >
-                    <PencilSquareIcon width={20} />
-                  </Link>
-                </td>
-                <td>
-                  <button type="submit" className="btn btn--warning">
-                    <TrashIcon width={20} />
-                  </button>
-                </td>
+            {income.map((inc) => (
+              <tr key={inc.incomeId}>
+                <IncomeItem inc={inc} onDelete={onDeleteIncome} />
               </tr>
             ))}
           </tbody>
