@@ -1,38 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  TrashIcon,
-  PencilSquareIcon,
-  PlusCircleIcon,
-} from "@heroicons/react/24/solid";
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import ExpensesItem from "./ExpensesItem";
 
-const Expenses = ({ expenses }) => {
+const Expenses = ({ expenses, goals, onDeleteExpense }) => {
   return (
     <div className="form-wrapper">
-      <Link to={`/expenses/add`} className="btn btn--dark">
-        <h3>Expenses</h3>
-        <PlusCircleIcon width={20} />
-      </Link>
+      <div className="form-header">
+        <h3>
+          <span className="red">Expenses</span>
+        </h3>
+        <Link to={`/expenses/add`} className="btn btn--dark">
+          <h4>Add</h4>
+          <PlusCircleIcon width={20} />
+        </Link>
+      </div>
       <div className="table">
         <table>
+          {/* <thead>
+            <tr>
+              {["Name", "Amount", "Goal", "", ""].map((i, index) => (
+                <th key={index}>{i}</th>
+              ))}
+            </tr>
+          </thead> */}
           <tbody>
-            {expenses.map((expense) => (
-              <tr key={expense.id}>
-                <td>{expense.name}</td>
-                <td>${expense.amount}</td>
-                <td>
-                  <Link
-                    to={`/expenses/edit/${expense.id}`}
-                    className="btn btn--dark"
-                  >
-                    <PencilSquareIcon width={20} />
-                  </Link>
-                </td>
-                <td>
-                  <button type="submit" className="btn btn--warning">
-                    <TrashIcon width={20} />
-                  </button>
-                </td>
+            {expenses.map((exp) => (
+              <tr key={exp.expenseId}>
+                <ExpensesItem
+                  exp={exp}
+                  goals={goals}
+                  onDelete={onDeleteExpense}
+                />
               </tr>
             ))}
           </tbody>

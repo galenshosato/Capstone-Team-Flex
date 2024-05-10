@@ -1,17 +1,17 @@
 import React from "react";
+import GoalsItem from "./GoalsItem";
 import { Link } from "react-router-dom";
-import {
-  TrashIcon,
-  PencilSquareIcon,
-  PlusCircleIcon,
-} from "@heroicons/react/24/solid";
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
-const Goals = ({ goals }) => {
+const Goals = ({ bankBalance, goals, expenses, onDeleteGoal }) => {
   return (
     <div className="form-wrapper">
-      <div className="display: flex">
+      <div className="form-header">
+        <h3>
+          <span>Goals</span>
+        </h3>
         <Link to={`/goals/add`} className="btn btn--dark">
-          <h3>Goals</h3>
+          <h4>Add</h4>
           <PlusCircleIcon width={20} />
         </Link>
       </div>
@@ -19,27 +19,20 @@ const Goals = ({ goals }) => {
         <table>
           <thead>
             <tr>
-              {["Name", "Budget", "Actual"].map((i, index) => (
+              {["Name", "%", "Budget", "Actual", "", ""].map((i, index) => (
                 <th key={index}>{i}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {goals.map((goal) => (
-              <tr key={goal.id}>
-                <td>{goal.name}</td>
-                <td>${goal.budget}</td>
-                <td>${goal.actual}</td>
-                <td>
-                  <Link to={`/goals/edit/${goal.id}`} className="btn btn--dark">
-                    <PencilSquareIcon width={20} />
-                  </Link>
-                </td>
-                <td>
-                  <button type="submit" className="btn btn--warning">
-                    <TrashIcon width={20} />
-                  </button>
-                </td>
+              <tr key={goal.goalId}>
+                <GoalsItem
+                  goal={goal}
+                  bankBalance={bankBalance}
+                  expenses={expenses}
+                  onDelete={onDeleteGoal}
+                />
               </tr>
             ))}
           </tbody>

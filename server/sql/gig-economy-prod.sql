@@ -45,13 +45,13 @@ INSERT INTO user (name, email, bank) VALUES
 ('Miro', 'miroslav@example.com', 1200.00);
 
 INSERT INTO income (name, amount, description, date, user_id) VALUES
-('Freelance', 300.00, 'Front-end web', '2023-05-01', 1),
+('Freelance', 300.00, 'Front-end web', '2024-05-01', 1),
 ('Graphic Design', 450.00, 'Logo design', '2024-05-02', 2),
 ('Consulting', 500.00, 'Business consulting', '2024-05-03', 3);
 
 INSERT INTO goal (description, percentage, user_id) VALUES
 ('Save for new laptop', 20.00, 1),
-('rent', 25.00, 2),
+('Rent', 25.00, 2),
 ('Groceries', 25.00, 3);
 
 INSERT INTO expense (name, amount, description, date, user_id, goal_id) VALUES
